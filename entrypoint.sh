@@ -2,9 +2,10 @@
 
 set -e
 
+[ $(cat /config.ini | grep apikeys) ] || \
 echo "
 [apikeys]
 key = ${API_KEY}
-" >> /conf.ini
+" >> /config.ini
 
-exec ./hub-listener -listen 0.0.0.0:80 -config-file /conf.ini "$@"
+exec ./hub-listener -listen 0.0.0.0:80 -config-file /config.ini "$@"
