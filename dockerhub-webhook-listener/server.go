@@ -37,8 +37,8 @@ type Config struct {
 		Key []string
 	}
 	Blog struct {
-		hub_repo       string
-		container_name string
+		Repo string
+		Name string
 	}
 }
 

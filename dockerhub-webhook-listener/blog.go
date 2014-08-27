@@ -11,7 +11,7 @@ type Blog struct{}
 
 func (b *Blog) Call(msg HubMessage) {
 
-	if msg.Repository.RepoName != ServerConfig.Blog.hub_repo {
+	if msg.Repository.RepoName != ServerConfig.Blog.Repo {
 		return
 	}
 
@@ -26,18 +26,18 @@ func (b *Blog) buildAndRun() error {
 		return err
 	}
 
-	if err := client.PullImage(ServerConfig.Blog.hub_repo); err != nil {
+	if err := client.PullImage(ServerConfig.Blog.Repo); err != nil {
 		return err
 	}
 
-	if err := client.RemoveContainer(ServerConfig.Blog.container_name, true, false); err != nil {
+	if err := client.RemoveContainer(ServerConfig.Blog.Name, true, false); err != nil {
 		return err
 	}
 
 	container := map[string]interface{}{
-		"Image":      ServerConfig.Blog.hub_repo,
+		"Image":      ServerConfig.Blog.Repo,
 		"HostConfig": map[string]interface{}{},
-		"Name":       ServerConfig.Blog.container_name,
+		"Name":       ServerConfig.Blog.Name,
 	}
 
 	return client.RunContainer(container)
