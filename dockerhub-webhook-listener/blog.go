@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/cpuguy83/docker-grand-ambassador/docker"
+	docker "github.com/cpuguy83/dockerclient"
 )
 
 type Blog struct{}
@@ -40,5 +40,9 @@ func (b *Blog) buildAndRun() error {
 		"Name":       ServerConfig.Blog.Name,
 	}
 
-	return client.RunContainer(container)
+	_, err = client.RunContainer(container)
+	if err != nil {
+		return err
+	}
+	return nil
 }
