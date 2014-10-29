@@ -2,6 +2,7 @@ package listener
 
 import "log"
 import "os/exec"
+import "os"
 
 type Handler interface {
 	Call(HubMessage)
@@ -15,7 +16,7 @@ func (l *Logger) Call(msg HubMessage) {
 
 func execShellHandler(msg HubMessage) {
   log.Println("receiving docker hub redeploy trigger")
-  out, err := exec.Command("/redeploy.sh").Output()
+  out, err := exec.Command(os.Getenv("HUBHOOK_HOME") + "/redeploy.sh").Output()
   if err != nil {
     log.Println("Error running redeploy.sh:")
     log.Println(err)
