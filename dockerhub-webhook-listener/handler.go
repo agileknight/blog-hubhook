@@ -12,6 +12,17 @@ func (l *Logger) Call(msg HubMessage) {
 	log.Print(msg)
 }
 
+func execShellHandler(msg HubMessage) {
+  log.Println("receiving docker hub redeploy trigger")
+  out, err := exec.Command("../redeploy.sh").Output()
+  if err != nil {
+    log.Println("Error running redeploy.sh:")
+    log.Println(err)
+    return
+  }
+  log.Println("successful ran redeploy.sh:", string(out))
+}
+
 type Registry struct {
 	entries []func(HubMessage)
 }
@@ -30,7 +41,7 @@ func (r *Registry) Call(msg HubMessage) {
 func MsgHandlers() Registry {
 	var handlers Registry
 
-	handlers.Add((&Blog{}).Call)
+	handlers.Add(execShellHandler)
 
 	return handlers
 }
